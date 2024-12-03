@@ -80,23 +80,32 @@ struct Day02: AdventDay {
       }
       return (isSafe, problemSpot)
     }
-    
+
     var output = 0
     for report in entities {
       var (isSafe, problemSpot) = test(report: report)
+      
       if !isSafe {
+        var r0 = report
         var r1 = report
         var r2 = report
-        
+        var safeArray: [Bool] = []
+
+        if problemSpot != 0 {
+          r0.remove(at: problemSpot!-1)
+          let (s0, _) = test(report: r0)
+          safeArray.append(s0)
+        }
         r1.remove(at: problemSpot!)
         r2.remove(at: problemSpot! + 1)
-        
+
         let (s1, _) = test(report: r1)
         let (s2, _) = test(report: r2)
-        
-        isSafe = s1 || s2
+        safeArray.append(contentsOf: [s1, s2])
+
+        isSafe = safeArray.contains(true)
       }
-      if isSafe { print(report) }
+      if !isSafe { print(report) }
       output += isSafe ? 1 : 0
     }
     return output
