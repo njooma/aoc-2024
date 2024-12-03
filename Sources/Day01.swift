@@ -35,14 +35,14 @@ struct Day01: AdventDay {
   func part2() -> Int {
     var m1 = [Int: Int]()
     var m2 = [Int: Int]()
-    
+
     list1.forEach {
       m1[$0, default: 0] += 1
     }
     list2.forEach {
       m2[$0, default: 0] += 1
     }
-    
+
     var output = 0
     m1.forEach {
       let multiplier = $0.value * m2[$0.key, default: 0]

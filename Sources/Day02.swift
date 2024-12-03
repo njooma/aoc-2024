@@ -84,7 +84,7 @@ struct Day02: AdventDay {
     var output = 0
     for report in entities {
       var (isSafe, problemSpot) = test(report: report)
-      
+
       if !isSafe {
         var r0 = report
         var r1 = report
@@ -92,7 +92,7 @@ struct Day02: AdventDay {
         var safeArray: [Bool] = []
 
         if problemSpot != 0 {
-          r0.remove(at: problemSpot!-1)
+          r0.remove(at: problemSpot! - 1)
           let (s0, _) = test(report: r0)
           safeArray.append(s0)
         }
