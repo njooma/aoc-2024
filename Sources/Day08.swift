@@ -11,7 +11,7 @@ struct Day08: AdventDay {
   var data: String
 
   var map: [[String]] {
-    data.split(separator: "\n").map { $0.split(separator: "").map{ String($0) } }
+    data.split(separator: "\n").map { $0.split(separator: "").map { String($0) } }
   }
 
   struct Location: Hashable {

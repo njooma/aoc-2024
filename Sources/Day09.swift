@@ -11,7 +11,9 @@ struct Day09: AdventDay {
   var data: String
 
   var diskMap: [Int] {
-    return data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: "").map { Int($0)! }
+    return data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: "").map {
+      Int($0)!
+    }
   }
 
   func part1() -> Int {
@@ -28,7 +30,7 @@ struct Day09: AdventDay {
       let isFile = iter.isMultiple(of: 2)
       if isFile {
         let fileSize = fileSizes[fileHead]
-        output[start..<start+fileSize] = ArraySlice(repeating: fileID, count: fileSize)
+        output[start..<start + fileSize] = ArraySlice(repeating: fileID, count: fileSize)
         fileID += 1
         start += fileSize
         fileHead += 1
@@ -38,19 +40,20 @@ struct Day09: AdventDay {
           let lastFileID = fileTail
           let lastFileSize = fileSizes[fileTail]
           if lastFileSize > emptySize {
-            output[start..<start+emptySize] = ArraySlice(repeating: lastFileID, count: emptySize)
+            output[start..<start + emptySize] = ArraySlice(repeating: lastFileID, count: emptySize)
             fileSizes[fileTail] = lastFileSize - emptySize
             start += emptySize
             emptySizes.removeFirst()
             break
           } else if lastFileSize == emptySize {
-            output[start..<start+emptySize] = ArraySlice(repeating: lastFileID, count: emptySize)
+            output[start..<start + emptySize] = ArraySlice(repeating: lastFileID, count: emptySize)
             fileTail -= 1
             emptySizes.removeFirst()
             start += emptySize
             break
           } else {
-            output[start..<start + lastFileSize] = ArraySlice(repeating: lastFileID, count: lastFileSize)
+            output[start..<start + lastFileSize] = ArraySlice(
+              repeating: lastFileID, count: lastFileSize)
             fileTail -= 1
             start += lastFileSize
             emptySizes[0] -= lastFileSize
@@ -70,7 +73,7 @@ struct Day09: AdventDay {
     for (idx, size) in diskMap.enumerated() {
       let isFile = idx.isMultiple(of: 2)
       if isFile {
-        output[head..<head+size] = ArraySlice(repeating: idx / 2, count: size)
+        output[head..<head + size] = ArraySlice(repeating: idx / 2, count: size)
       }
       head += size
     }
@@ -83,12 +86,13 @@ struct Day09: AdventDay {
       var emptyHead = 0
       while fileTail > emptyHead {
         let emptySize = emptySizes[emptyHead]
-        if (fileSize <= emptySize) {
+        if fileSize <= emptySize {
           if let toResetStart = output.firstIndex(of: fileTail) {
-            output[toResetStart..<toResetStart+fileSize] = ArraySlice(repeating: -1, count: fileSize)
+            output[toResetStart..<toResetStart + fileSize] = ArraySlice(
+              repeating: -1, count: fileSize)
           }
           let start = output.indexOfContiguous(Array(repeating: -1, count: fileSize))!
-          output[start..<start+fileSize] = ArraySlice(repeating: fileTail, count: fileSize)
+          output[start..<start + fileSize] = ArraySlice(repeating: fileTail, count: fileSize)
           emptySizes[emptyHead] -= fileSize
           break
         } else {
@@ -108,24 +112,24 @@ struct Day09: AdventDay {
   }
 }
 
-extension Array where Element : Equatable {
-    func indexOfContiguous(_ subArray:[Element]) -> Int? {
+extension Array where Element: Equatable {
+  func indexOfContiguous(_ subArray: [Element]) -> Int? {
 
-        // This is to prevent construction of a range from zero to negative
-        if subArray.count > self.count {
-            return nil
-        }
-
-        // The index of the match could not exceed data.count-part.count
-        let r = (0...self.count-subArray.count)
-        let x = r.firstIndex { ind in
-            // Construct a sub-array from current index,
-            // and compare its content to what we are looking for.
-            [Element](self[ind..<ind+subArray.count]) == subArray
-        }
-        if let x {
-          return r.distance(from: r.startIndex, to: x)
-        }
-        return nil
+    // This is to prevent construction of a range from zero to negative
+    if subArray.count > self.count {
+      return nil
     }
+
+    // The index of the match could not exceed data.count-part.count
+    let r = (0...self.count - subArray.count)
+    let x = r.firstIndex { ind in
+      // Construct a sub-array from current index,
+      // and compare its content to what we are looking for.
+      [Element](self[ind..<ind + subArray.count]) == subArray
+    }
+    if let x {
+      return r.distance(from: r.startIndex, to: x)
+    }
+    return nil
+  }
 }

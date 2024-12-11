@@ -11,7 +11,8 @@ struct Day11: AdventDay {
   var data: String
 
   func part1() -> Int {
-    var stones = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ").map(String.init)
+    var stones = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ").map(
+      String.init)
 
     for _ in 0..<25 {
       var newStones = [String]()
@@ -19,7 +20,7 @@ struct Day11: AdventDay {
         if stone == "0" {
           newStones.append("1")
         } else if stone.count.isMultiple(of: 2) {
-          let middle = stone.count/2
+          let middle = stone.count / 2
           let left = stone[stone.startIndex..<stone.index(stone.startIndex, offsetBy: middle)]
           let right = stone[stone.index(stone.startIndex, offsetBy: middle)...]
           newStones.append("\(Int(left)!)")
@@ -36,7 +37,8 @@ struct Day11: AdventDay {
 
   func part2() -> Int {
     var cache = [String: [String]]()
-    let stones = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ").map(String.init)
+    let stones = data.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: " ").map(
+      String.init)
     var counts: [String: Int] = [:]
     for stone in stones {
       counts[stone, default: 0] += 1
@@ -55,7 +57,7 @@ struct Day11: AdventDay {
         if stone == "0" {
           result = ["1"]
         } else if stone.count.isMultiple(of: 2) {
-          let middle = stone.count/2
+          let middle = stone.count / 2
           let left = stone[stone.startIndex..<stone.index(stone.startIndex, offsetBy: middle)]
           let right = stone[stone.index(stone.startIndex, offsetBy: middle)...]
           result = ["\(Int(left)!)", "\(Int(right)!)"]
@@ -64,8 +66,8 @@ struct Day11: AdventDay {
         }
         cache[stone] = result
         for r in result {
-            newCounts[r, default: 0] += count
-          }
+          newCounts[r, default: 0] += count
+        }
       }
       counts = newCounts
     }
